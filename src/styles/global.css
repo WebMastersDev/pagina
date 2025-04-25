@@ -1089,6 +1089,12 @@
                 width: 100%;
                 margin-bottom: 30px;
             }
+            .contact-info {
+                width: 65%;
+                flex-direction: column;
+                align-items: start;
+                align-items: start;
+            }
         }
         
         @media (max-width: 576px) {
@@ -1098,5 +1104,19 @@
             
             .section-title h2 {
                 font-size: 2rem;
+            }
+
+            .contact-info {
+                width: 100%;
+                flex-direction: column;
+                align-items: start;
+            }
+
+            .contact-item {
+                width: 100%;
+            }
+
+            .contact-form {
+                width: 100%;
             }
         }
