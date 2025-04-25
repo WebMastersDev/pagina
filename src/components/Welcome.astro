@@ -1,0 +1,311 @@
+---
+import "../styles/global.css"
+import Head from "../components/Head.astro"
+import Header from "../components/Header.astro"
+import Hero from "../components/Hero.astro"
+import Services from "../components/Services.astro"
+import Portafolio from "../components/Portafolio.astro"
+import Proceso from "../components/Proceso.astro"
+import Contacto from "../components/Contacto.astro"
+import Footer from "../components/Footer.astro"
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<Head />
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+	<Header />
+	<Hero />
+	<Services />
+	<Proceso />
+    <Contacto />
+	<Footer />
+
+    <script>
+        // Cursor Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+            
+            // Add hover effect to all links and buttons
+            const hoverElements = document.querySelectorAll('a, button, .service-card, .portfolio-item, .pricing-card');
+            
+            hoverElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.width = '50px';
+                    cursor.style.height = '50px';
+                    cursor.style.borderColor = 'var(--accent)';
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.width = '30px';
+                    cursor.style.height = '30px';
+                    cursor.style.borderColor = 'var(--primary)';
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            });
+            
+            // Hide cursor when mouse leaves window
+            document.addEventListener('mouseout', function(e) {
+                if (e.relatedTarget === null) {
+                    cursor.style.opacity = '0';
+                    cursorDot.style.opacity = '0';
+                }
+            });
+            
+            document.addEventListener('mouseover', function() {
+                cursor.style.opacity = '1';
+                cursorDot.style.opacity = '1';
+            });
+            
+            // Hide on mobile devices
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                cursor.style.display = 'none';
+                cursorDot.style.display = 'none';
+            }
+        });
+        
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const ctaButton = document.querySelector('nav .cta-button');
+            
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                if (ctaButton) ctaButton.classList.toggle('active');
+                
+                // Animate hamburger to X
+                const spans = menuToggle.querySelectorAll('span');
+                spans.forEach(span => span.classList.toggle('active'));
+            });
+            
+            // Add mobile menu styles dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                @media (max-width: 768px) {
+                    .nav-links.active {
+                        display: flex;
+                        flex-direction: column;
+                        position: absolute;
+                        top: 80px;
+                        left: 0;
+                        right: 0;
+                        background-color: var(--dark);
+                        padding: 20px;
+                        z-index: 100;
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                        animation: slideDown 0.3s ease forwards;
+                    }
+                    
+                    nav .cta-button.active {
+                        display: inline-block;
+                        margin-top: 15px;
+                        margin-left: 20px;
+                    }
+                    
+                    .menu-toggle span.active:nth-child(1) {
+                        transform: translateY(8px) rotate(45deg);
+                    }
+                    
+                    .menu-toggle span.active:nth-child(2) {
+                        opacity: 0;
+                    }
+                    
+                    .menu-toggle span.active:nth-child(3) {
+                        transform: translateY(-8px) rotate(-45deg);
+                    }
+                    
+                    @keyframes slideDown {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollLinks = document.querySelectorAll('a[href^="#"]');
+            
+            scrollLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        const navLinks = document.querySelector('.nav-links');
+                        if (navLinks.classList.contains('active')) {
+                            navLinks.classList.remove('active');
+                            document.querySelector('nav .cta-button').classList.remove('active');
+                            const spans = document.querySelectorAll('.menu-toggle span');
+                            spans.forEach(span => span.classList.remove('active'));
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Intersection Observer for scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Elements to animate
+            const animatedElements = [
+                ...document.querySelectorAll('.service-card'),
+                ...document.querySelectorAll('.portfolio-item'),
+                ...document.querySelectorAll('.process-step'),
+                ...document.querySelectorAll('.testimonial-card'),
+                ...document.querySelectorAll('.pricing-card'),
+                ...document.querySelectorAll('.contact-item'),
+                document.querySelector('.contact-form')
+            ].filter(Boolean);
+            
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .service-card, .portfolio-item, .process-step, .testimonial-card, .pricing-card, .contact-item, .contact-form {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: opacity 0.6s ease, transform 0.6s ease;
+                }
+                
+                .service-card.animated, .portfolio-item.animated, .process-step.animated, .testimonial-card.animated, .pricing-card.animated, .contact-item.animated, .contact-form.animated {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                
+                .service-card:nth-child(1) { transition-delay: 0.1s; }
+                .service-card:nth-child(2) { transition-delay: 0.2s; }
+                .service-card:nth-child(3) { transition-delay: 0.3s; }
+                
+                .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
+                .portfolio-item:nth-child(2) { transition-delay: 0.2s; }
+                .portfolio-item:nth-child(3) { transition-delay: 0.3s; }
+                
+                .process-step:nth-child(1) { transition-delay: 0.1s; }
+                .process-step:nth-child(2) { transition-delay: 0.2s; }
+                .process-step:nth-child(3) { transition-delay: 0.3s; }
+                
+                .contact-item:nth-child(1) { transition-delay: 0.1s; }
+                .contact-item:nth-child(2) { transition-delay: 0.2s; }
+                .contact-item:nth-child(3) { transition-delay: 0.3s; }
+            `;
+            document.head.appendChild(style);
+            
+            // Observe elements
+            animatedElements.forEach(element => {
+                if (element) {
+                    observer.observe(element);
+                }
+            });
+        });
+        
+        // Simple form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.querySelector('.contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+					// Validación sin evitar el envío
+					const name = document.getElementById('name').value.trim();
+					const email = document.getElementById('email').value.trim();
+					const subject = document.getElementById('subject').value.trim();
+					const message = document.getElementById('message').value.trim();
+
+					if (!name || !email || !subject || !message) {
+						e.preventDefault();
+						alert('Por favor completa todos los campos.');
+						return;
+					}
+
+					if (!isValidEmail(email)) {
+						e.preventDefault();
+						alert('Por favor ingresa un email válido.');
+						return;
+					}
+
+					// Opcional: mostrar "enviando..." mientras se procesa
+					const submitBtn = contactForm.querySelector('.submit-btn');
+					submitBtn.innerHTML = 'Enviando...';
+					submitBtn.disabled = true;
+				});
+
+                
+                function isValidEmail(email) {
+                    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(String(email).toLowerCase());
+                }
+            }
+        });
+        
+        // Header scroll effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Add header scroll style
+            const style = document.createElement('style');
+            style.textContent = `
+                header.scrolled {
+                    background-color: rgba(10, 10, 10, 0.95);
+                    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                }
+                
+                header {
+                    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 
