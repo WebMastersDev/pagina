@@ -113,7 +113,7 @@
             transform-origin: left;
         }
         
-        .cta-button {
+        .cta-button, .cta-button-responsive {
             padding: 10px 25px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: var(--dark);
@@ -125,10 +125,24 @@
             text-decoration: none;
             display: inline-block;
         }
+
+        .cta-button-responsive{
+            text-align: center;
+            width: 100px;
+            display: none;
+        }
         
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(12, 255, 225, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            
+            .cta-button {
+                display: none;
+            }
+            
         }
         
         .menu-toggle {
@@ -1058,9 +1072,15 @@
             .pricing-card.popular:hover {
                 transform: translateY(-10px);
             }
+            .cta-button-responsive{
+                display: none;
+            }
         }
         
         @media (max-width: 768px) {
+            .cta-button-responsive{
+                display: block;
+            }
             .hero-content {
                 flex-direction: column;
             }
@@ -1094,6 +1114,9 @@
                 flex-direction: column;
                 align-items: start;
                 align-items: start;
+            }
+            .active-button{
+                display: none;
             }
         }
         

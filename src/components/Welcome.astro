@@ -1,10 +1,8 @@
 ---
 import "../styles/global.css"
-import Head from "../components/Head.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import Services from "../components/Services.astro"
-import Portafolio from "../components/Portafolio.astro"
 import Proceso from "../components/Proceso.astro"
 import Contacto from "../components/Contacto.astro"
 import Footer from "../components/Footer.astro"
@@ -80,10 +78,12 @@ import Footer from "../components/Footer.astro"
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
             const ctaButton = document.querySelector('nav .cta-button');
+            const ctaButtonResponsive = document.querySelector('.cta-button-responsive');
             
             menuToggle.addEventListener('click', function() {
                 navLinks.classList.toggle('active');
-                if (ctaButton) ctaButton.classList.toggle('active');
+                if (ctaButton) ctaButton.classList.toggle('active-button');
+                if (ctaButtonResponsive) ctaButtonResponsive.style.display = "block";
                 
                 // Animate hamburger to X
                 const spans = menuToggle.querySelectorAll('span');
