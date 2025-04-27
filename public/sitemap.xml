@@ -5,20 +5,4 @@
     <lastmod>2025-04-25</lastmod>
     <priority>1.00</priority>
   </url>
-  <url>
-    <loc>https://webmastersdevs.netlify.app/#servicios</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://webmastersdevs.netlify.app/#portafolio</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://webmastersdevs.netlify.app/#proceso</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://webmastersdevs.netlify.app/#contacto</loc>
-    <priority>0.8</priority>
-  </url>
 </urlset>
